@@ -19,3 +19,17 @@ before_install:
 script:
   # -e CI=true essentially stops and exists the test suite to return 0 status code to travis ci
   - docker run -e CI=true sahil68/docker-react npm run test
+
+# telling tavis CI to take the app and dpeloy to aws
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-2"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-2-219911286380"
+  bucket_path: "docker-react"
+  on:
+      branch: master #only deploy when code is pushed to master branch
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+      secure: "$AWS_SECRET_KEY"
