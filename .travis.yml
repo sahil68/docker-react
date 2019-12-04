@@ -1,0 +1,21 @@
+# tells Travis that we will need to run in superuser mode
+sudo: required
+
+# tells travis to install Docker 
+services:
+  - docker
+
+before_install:
+  # below will run docker build pointing to particular Dockerfile.dev
+  # it '.' at the end says build in regards to the context of the directory
+  # '-t sahil68/docker-react' will tag the image for travis to use once image is created
+  - docker build -t sahil68/docker-react -f Dockerfile.dev .
+
+# section below contain all the different commands that need to be executed to run the test suite
+# series of commands that execute the tests
+# "npm run test" overrides the default command when running the container
+# travis CI watches the output of all these commands, 
+# if it gets a status code other than 0, it assumes something wrong has happened and will error
+script:
+  # -- -- coverage essentially stops and exists the test suite to return 0 status code to travis ci
+  - docker run sahil68/docker-react npm run test -- -- coverage
