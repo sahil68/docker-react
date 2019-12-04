@@ -18,4 +18,5 @@ before_install:
 # if it gets a status code other than 0, it assumes something wrong has happened and will error
 script:
   # -- -- coverage essentially stops and exists the test suite to return 0 status code to travis ci
+  #
   - docker run sahil68/docker-react npm run test -- --coverage
